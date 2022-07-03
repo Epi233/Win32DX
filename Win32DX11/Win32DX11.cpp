@@ -2,6 +2,8 @@
 
 #include "Win32UI/Window.h"
 #include "Util/StringUtil.h"
+#include "Util/Singleton.hpp"
+#include "Console/DebugConsole.h"
 
 int WINAPI wWinMain(
     HINSTANCE hInst,
@@ -9,6 +11,7 @@ int WINAPI wWinMain(
     PWSTR lpCmdLine,
     int nCmdShow)
 {
+    
     try
     {
         Win32UI::Window wnd(800, 600, L"Engine");
