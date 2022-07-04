@@ -21,7 +21,7 @@ public:
     };
 
 public:
-    void WriteLine(const std::wstring& msg, Level level = Level::Normal) const;
+    void writeLine(const std::wstring& msg, Level level = Level::Normal) const;
 
 private:
     HANDLE _hConsole;

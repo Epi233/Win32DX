@@ -12,7 +12,7 @@ DebugConsole::~DebugConsole()
     FreeConsole();
 }
 
-void DebugConsole::WriteLine(const std::wstring& msg, Level level) const
+void DebugConsole::writeLine(const std::wstring& msg, Level level) const
 {
     WORD textAttr;
     switch (level)

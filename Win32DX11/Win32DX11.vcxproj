@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="Console\DebugConsole.cpp" />
     <ClCompile Include="Exception\BaseException.cpp" />
+    <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Util\StringUtil.cpp" />
     <ClCompile Include="Win32DX11.cpp" />
     <ClCompile Include="Win32UI\Window.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Console\DebugConsole.h" />
     <ClInclude Include="DefinwWindows.h" />
     <ClInclude Include="Exception\BaseException.h" />
+    <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Util\Singleton.hpp" />
     <ClInclude Include="Util\StringUtil.h" />
