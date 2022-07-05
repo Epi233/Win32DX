@@ -187,7 +187,12 @@
     <ResourceCompile Include="Win32DX11.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="WindowIcon.ico" />
+    <Image Include="icons8-nintendo-switch-logo-128.png" />
+    <Image Include="icons8-nintendo-switch-logo-16.png" />
+    <Image Include="icons8-nintendo-switch-logo-256.png" />
+    <Image Include="icons8-nintendo-switch-logo-32.png" />
+    <Image Include="icons8-nintendo-switch-logo-512.png" />
+    <Image Include="icons8-nintendo-switch-logo-64.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -50,9 +50,23 @@ END
 // Icon
 //
 
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_APPICON               ICON                    "WindowIcon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_PNG1                PNG                     "icons8-nintendo-switch-logo-16.png"
+
+IDB_PNG2                PNG                     "icons8-nintendo-switch-logo-32.png"
+
+IDB_PNG3                PNG                     "icons8-nintendo-switch-logo-64.png"
+
+IDB_PNG4                PNG                     "icons8-nintendo-switch-logo-128.png"
+
+IDB_PNG5                PNG                     "icons8-nintendo-switch-logo-256.png"
+
+IDB_PNG6                PNG                     "icons8-nintendo-switch-logo-512.png"
 
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////

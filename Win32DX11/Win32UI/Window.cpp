@@ -4,50 +4,34 @@
 
 namespace Win32UI
 {
-    // static member init
-    Window::InternalWindow Window::InternalWindow::_instance;
-
-    Window::InternalWindow::InternalWindow()
-        : _hInst(GetModuleHandle(nullptr))
+    Window::Window(int width, int height, const wchar_t* name) noexcept
+        : _width(width)
+        , _height(height)
+        , _hInst(GetModuleHandle(nullptr))
     {
         // icon
-        HICON hIcon = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
-        HICON hIconSm = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0));
-        
+        // HICON hIcon = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
+        // HICON hIconSm = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0));
+
+        // HICON hIcon = static_cast<HICON>(LoadIcon(_hInst, MAKEINTRESOURCEW(IDI_ICON1)));
+
         WNDCLASSEX wc;
+
         wc.cbSize = sizeof(wc);
         wc.style = CS_OWNDC;
         wc.lpfnWndProc = HandleMsgSetup;
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
-        wc.hInstance = getInstance();
-        wc.hIcon = hIcon;
+        wc.hInstance = _hInst;
+        wc.hIcon = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDB_PNG2), IMAGE_BITMAP, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
         wc.hCursor = nullptr;
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
-        wc.lpszClassName = getWindowName();
-        wc.hIconSm = hIconSm;
+        wc.lpszClassName = WND_CLASS_NAME;
+        wc.hIconSm = nullptr;
 
         RegisterClassExW(&wc);
-    }
 
-    Window::InternalWindow::~InternalWindow()
-    {
-        UnregisterClassW(WND_NAME, getInstance());
-    }
-
-    LPCWSTR Window::InternalWindow::getWindowName() noexcept
-    {
-        return WND_NAME;
-    }
-
-    HINSTANCE Window::InternalWindow::getInstance() noexcept
-    {
-        return _instance._hInst;
-    }
-
-    Window::Window(int width, int height, const wchar_t* name) noexcept
-    {
         RECT rect;
         rect.left = 100;
         rect.right = width + rect.left;
@@ -58,9 +42,12 @@ namespace Win32UI
 
         AdjustWindowRect(&rect, style, FALSE);
 
+        // 通过WM_NCCREATE把自己发出去，通过这个方式建立实例指针和winApi之间的联系
+        void* lParam = this;
+
         _hWnd = CreateWindowExW(
             0,
-            InternalWindow::getWindowName(),
+            WND_CLASS_NAME,
             name,
             style,
             CW_USEDEFAULT,
@@ -69,8 +56,8 @@ namespace Win32UI
             rect.bottom - rect.top,
             nullptr,
             nullptr,
-            InternalWindow::getInstance(),
-            this // 通过WM_NCCREATE把自己发出去，通过这个方式建立实例指针和winApi之间的联系
+            _hInst,
+            lParam 
             );
 
         ShowWindow(_hWnd, SW_SHOWDEFAULT);
@@ -79,6 +66,7 @@ namespace Win32UI
     Window::~Window()
     {
         DestroyWindow(_hWnd);
+        UnregisterClassW(WND_CLASS_NAME, _hInst);
     }
 
     LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

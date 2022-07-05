@@ -19,26 +19,13 @@ namespace Win32UI
         LRESULT HandleMsg(HWND, UINT, WPARAM, LPARAM) noexcept;
 
     private:
+        static constexpr LPCWSTR WND_CLASS_NAME = L"DX11 Engine";
+
+    private:
         int _width;
         int _height;
+        HINSTANCE _hInst;
         HWND _hWnd;
-        
-    private:
-        class InternalWindow
-        {
-        public:
-            static LPCWSTR getWindowName() noexcept;
-            static HINSTANCE getInstance() noexcept;
-        private:
-            InternalWindow();
-            ~InternalWindow();
-            InternalWindow(const InternalWindow&) = delete;
-            InternalWindow& operator= (const InternalWindow&) = delete;
-        private:
-            static constexpr LPCWSTR WND_NAME = L"DX11 Engine";
-            static InternalWindow _instance;
-            HINSTANCE _hInst;
-        };
 
     public:
         class Exception : public BaseException
