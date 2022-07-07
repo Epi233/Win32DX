@@ -10,10 +10,7 @@ namespace Win32UI
         , _hInst(GetModuleHandle(nullptr))
     {
         // icon
-        // HICON hIcon = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
-        // HICON hIconSm = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0));
-
-        // HICON hIcon = static_cast<HICON>(LoadIcon(_hInst, MAKEINTRESOURCEW(IDI_ICON1)));
+        HANDLE hIcon = LoadImage(_hInst, MAKEINTRESOURCE(IDI_APPICON), IMAGE_ICON, 64, 64, 0);
 
         WNDCLASSEX wc;
 
@@ -23,12 +20,12 @@ namespace Win32UI
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
         wc.hInstance = _hInst;
-        wc.hIcon = static_cast<HICON>(LoadImage(_hInst, MAKEINTRESOURCE(IDB_PNG2), IMAGE_BITMAP, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
+        wc.hIcon = static_cast<HICON>(hIcon);
         wc.hCursor = nullptr;
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = WND_CLASS_NAME;
-        wc.hIconSm = nullptr;
+        wc.hIconSm = static_cast<HICON>(hIcon);
 
         RegisterClassExW(&wc);
 

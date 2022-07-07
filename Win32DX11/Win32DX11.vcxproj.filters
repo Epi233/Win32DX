@@ -47,9 +47,6 @@
     <ClInclude Include="Win32UI\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Console\DebugConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,6 +56,9 @@
     <ClInclude Include="Util\Singleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Win32DX11.rc">
@@ -66,22 +66,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icons8-nintendo-switch-logo-16.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icons8-nintendo-switch-logo-32.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icons8-nintendo-switch-logo-64.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icons8-nintendo-switch-logo-128.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icons8-nintendo-switch-logo-256.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icons8-nintendo-switch-logo-512.png">
+    <Image Include="Resource\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
