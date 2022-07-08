@@ -19,7 +19,11 @@ public:
         unsigned char _code;
 
     public:
-        
+        Event();
+        Event(Type type, unsigned char code);
+        bool IsPressed() const;
+        bool IsReleased() const;
+        bool IsValid() const;
     };
     
 public:
@@ -32,16 +36,17 @@ public:
     bool isKeyPressed(unsigned char keycode) const;
     Event readKey();
     bool isKeyEmpty() const;
-    void clear();
+    void clearKey();
 
     wchar_t readCharW();
     bool isCharEmpty() const;
-    void flushChar();
-    void flush();
+    void clearChar();
+    
+    void clear();
 
     void enableAutoRepeat();
     void disableAutoRepeat();
-    bool isAutoRepeatEnabled();
+    bool isAutoRepeatEnabled() const;
 
 private:
     void onKeyPressed(unsigned char keycode);
