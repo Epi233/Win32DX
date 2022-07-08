@@ -99,6 +99,15 @@ namespace Win32UI
         case WM_CLOSE:
             PostQuitMessage(0);
             return 0;
+            /* Keyboard */
+        case WM_KEYDOWN:
+            _keyboard.onKeyPressed(static_cast<unsigned char>(wParam));
+            break;
+        case WM_KEYUP:
+            _keyboard.onKeyReleased(static_cast<unsigned char>(wParam));
+            break;
+        case WM_CHAR:
+            _keyboard.onCharW(static_cast<wchar_t>(wParam));
         }
 
         return DefWindowProc(hWnd, msg, wParam, lParam);

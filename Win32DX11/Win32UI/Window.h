@@ -2,6 +2,7 @@
 
 #include "../DefinwWindows.h"
 #include "../Exception/BaseException.h"
+#include "../Input/Keyboard.h"
 
 namespace Win32UI
 {
@@ -26,6 +27,9 @@ namespace Win32UI
         int _height;
         HINSTANCE _hInst;
         HWND _hWnd;
+
+    private:
+        Keyboard _keyboard;
 
     public:
         class Exception : public BaseException

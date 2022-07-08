@@ -6,8 +6,6 @@
 
 class Keyboard
 {
-    friend class Windows;
-
 public:
     class Event
     {
@@ -48,7 +46,7 @@ public:
     void disableAutoRepeat();
     bool isAutoRepeatEnabled() const;
 
-private:
+public:
     void onKeyPressed(unsigned char keycode);
     void onKeyReleased(unsigned char keycode);
     void onCharW(wchar_t c);
