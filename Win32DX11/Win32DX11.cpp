@@ -1,9 +1,7 @@
 #include "DefinwWindows.h"
 
 #include "Win32UI/Window.h"
-#include "Util/StringUtil.h"
-#include "Util/Singleton.hpp"
-#include "Console/DebugConsole.h"
+#include "Application.h"
 
 int WINAPI wWinMain(
     HINSTANCE hInst,
@@ -14,21 +12,9 @@ int WINAPI wWinMain(
     
     try
     {
-        Win32UI::Window wnd(800, 600, L"Engine");
+        Application app(800, 600, L"Engine");
 
-        MSG msg;
-        BOOL gResult;
-
-        while ((gResult = GetMessageW(&msg, nullptr, 0, 0)) > 0)
-        {
-            TranslateMessage(&msg);
-            DispatchMessageW(&msg);
-        }
-
-        if (gResult == -1)
-            return -1;
-    
-        return static_cast<int>(msg.wParam);
+        app.begin();
     }
     catch (const BaseException& e)
     {

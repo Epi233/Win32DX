@@ -182,21 +182,29 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="Console\DebugConsole.cpp" />
     <ClCompile Include="Exception\BaseException.cpp" />
     <ClCompile Include="Input\Keyboard.cpp" />
+    <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Util\StringUtil.cpp" />
+    <ClCompile Include="Util\Timer.cpp" />
+    <ClCompile Include="Util\Util.cpp" />
     <ClCompile Include="Win32DX11.cpp" />
     <ClCompile Include="Win32UI\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Console\DebugConsole.h" />
     <ClInclude Include="DefinwWindows.h" />
     <ClInclude Include="Exception\BaseException.h" />
     <ClInclude Include="Input\Keyboard.h" />
+    <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Util\Singleton.hpp" />
     <ClInclude Include="Util\StringUtil.h" />
+    <ClInclude Include="Util\Timer.h" />
+    <ClInclude Include="Util\Util.h" />
     <ClInclude Include="Win32UI\Window.h" />
   </ItemGroup>
   <ItemGroup>

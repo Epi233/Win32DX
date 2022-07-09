@@ -53,10 +53,6 @@ public:
     void clearState();
 
 private:
-    template<typename T>
-    static void TrimQueue(std::queue<T> q);
-
-private:
     static constexpr unsigned int NUM_OF_KEYS = 256;
     static constexpr unsigned int QUEUE_SIZE = 16;
 

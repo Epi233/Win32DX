@@ -1,4 +1,5 @@
 ﻿#include "Keyboard.h"
+#include "../Util/Util.h"
 
 Keyboard::Event::Event()
     : _type(Type::Invalid)
@@ -109,34 +110,26 @@ void Keyboard::onKeyPressed(unsigned char keycode)
 {
     _keyStateSet[keycode] = true;
     _keyBuffer.push(Event(Event::Type::Press, keycode));
-    TrimQueue(_keyBuffer);
+    Util::TrimQueue(_keyBuffer, QUEUE_SIZE);
 }
 
 void Keyboard::onKeyReleased(unsigned char keycode)
 {
     _keyStateSet[keycode] = false;
     _keyBuffer.push(Event(Event::Type::Release, keycode));
-    TrimQueue(_keyBuffer);
+    Util::TrimQueue(_keyBuffer, QUEUE_SIZE);
 }
 
 void Keyboard::onCharW(wchar_t c)
 {
     _charBuffer.push(c);
-    TrimQueue(_charBuffer);
+    Util::TrimQueue(_charBuffer, QUEUE_SIZE);
 }
 
 void Keyboard::clearState()
 {
     _keyStateSet.reset();
 }
-
-template<typename T>
-void Keyboard::TrimQueue(std::queue<T> q)
-{
-    while (q.size() > QUEUE_SIZE)
-        q.pop();
-}
-
 
 
 
