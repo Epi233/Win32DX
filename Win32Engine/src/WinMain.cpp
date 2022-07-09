@@ -9,7 +9,6 @@ int WINAPI wWinMain(
     PWSTR lpCmdLine,
     int nCmdShow)
 {
-    
     try
     {
         Application app(800, 600, L"Engine");

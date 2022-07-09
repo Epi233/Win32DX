@@ -1,4 +1,7 @@
-
+//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++ 生成的包含文件。
+// 供 Win32Engine.rc 使用
+//
 #define IDI_APPICON                       101
 
 // Next default values for new objects

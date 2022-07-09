@@ -1,8 +1,7 @@
 ﻿#include "Window.h"
-#include <sstream>
-#include "../resource.h"
+#include "../../resource.h"
 
-Window::Window(int width, int height, const wchar_t* name) noexcept
+Window::Window(int width, int height, const wchar_t* name)
         : _width(width)
         , _height(height)
         , _hInst(GetModuleHandle(nullptr))
@@ -56,6 +55,8 @@ Window::Window(int width, int height, const wchar_t* name) noexcept
         );
 
     ShowWindow(_hWnd, SW_SHOWDEFAULT);
+
+    _pGraphicD3D11 = std::make_unique<GraphicD3D11>(_hWnd);
 }
 
 Window::~Window()
@@ -70,7 +71,7 @@ std::optional<int> Window::processMessage()
     while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
     {
         if (msg.message == WM_QUIT)
-            return msg.wParam;
+            return static_cast<int>(msg.wParam);
 
         TranslateMessage(&msg);
         DispatchMessage(&msg);
@@ -268,60 +269,7 @@ LRESULT Window::onMsgWmMouseWheel(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-
-/*
- * Exception
- */
-
-Window::Exception::Exception(int line, const char* file, HRESULT hResult)
-    : BaseException(line, file)
-    , _hResult(hResult)
+void Window::graphicSwapChain() const
 {
-}
-
-const wchar_t* Window::Exception::whatW() const noexcept
-{
-    std::wostringstream oss;
-    oss << getType() << std::endl;
-    oss << "[H Result] " << getHResult() << std::endl;
-    oss << "[Desc] " << getExceptionString() << std::endl;
-    oss << getOriginalString();
-
-    _whatBuffer = oss.str();
-    return _whatBuffer.c_str();
-}
-
-const char* Window::Exception::getType() const noexcept
-{
-    return "Window Exception";
-}
-
-HRESULT Window::Exception::getHResult() const noexcept
-{
-    return _hResult;
-}
-
-std::wstring Window::Exception::getExceptionString() const noexcept
-{
-    return hResultToString(_hResult);
-}
-
-std::wstring Window::Exception::hResultToString(HRESULT hResult) noexcept
-{
-    wchar_t* pMsgBuffer = nullptr;
-    DWORD nMsgLen = FormatMessageW(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-        nullptr,
-        hResult,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        reinterpret_cast<LPWSTR>(&pMsgBuffer),
-        0,
-        nullptr);
-
-    if (nMsgLen == 0)
-        return L"UnKnow Code";
-
-    std::wstring errorStr = pMsgBuffer;
-    LocalFree(pMsgBuffer);
-    return errorStr;
+    _pGraphicD3D11->swapBuffer();
 }

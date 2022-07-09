@@ -1,16 +1,18 @@
 ﻿#pragma once
 
 #include <optional>
+#include <memory>
 
 #include "../DefinwWindows.h"
-#include "../Exception/BaseException.h"
+#include "../Exception/EngineException.h"
 #include "../Input/Keyboard.h"
 #include "../Input/Mouse.h"
+#include "../Graphic/D3D11/GraphicD3D11.h"
 
 class Window
 {
 public:
-    Window(int width, int height, const wchar_t* name) noexcept;
+    Window(int width, int height, const wchar_t* name);
     ~Window();
     Window(const Window&) = delete;
     Window& operator= (const Window&) = delete;
@@ -58,21 +60,11 @@ private:
     LRESULT onMsgWmRButtonUp(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     LRESULT onMsgWmMouseWheel(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-public:
-    class Exception : public BaseException
-    {
-    public:
-        Exception(int line, const char* file, HRESULT hResult);
-        const wchar_t* whatW() const noexcept override;
-        virtual const char* getType() const noexcept override;
+private:
+    std::unique_ptr<GraphicD3D11> _pGraphicD3D11;
 
-    public:
-        static std::wstring hResultToString(HRESULT hResult) noexcept;
-        HRESULT getHResult() const noexcept;
-        std::wstring getExceptionString() const noexcept;
-        
-    private:
-        HRESULT _hResult;
-    };
+public:
+    void graphicSwapChain() const;
+    
 };
 

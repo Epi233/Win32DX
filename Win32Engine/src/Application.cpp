@@ -20,5 +20,5 @@ int Application::begin()
 
 void Application::gameLoop()
 {
-    
+    _window.graphicSwapChain();
 }
