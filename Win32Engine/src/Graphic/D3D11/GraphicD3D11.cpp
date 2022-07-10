@@ -22,12 +22,21 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
     swapChainDesc.Windowed = true;
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     swapChainDesc.Flags = 0;
+
+    UINT swapCreateFlags = 0u;
+#if _DEBUG
+    swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+#if _DEBUG
+    _dxgiDebugInfoBridge.setLogPosition();
+#endif
     
     HRESULT hr = D3D11CreateDeviceAndSwapChain(
         nullptr,
         D3D_DRIVER_TYPE_HARDWARE,
         nullptr,
-        0,
+        swapCreateFlags,
         nullptr,
         0,
         D3D11_SDK_VERSION,
@@ -38,7 +47,15 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
         &pContext
         );
 
-    HResultException::check(hr, __LINE__, __FILE__);
+
+    if (FAILED(hr))
+    {
+#if _DEBUG
+        throw HResultException(__LINE__, __FILE__, hr, _dxgiDebugInfoBridge.getLog());
+#else
+        throw HResultException(__LINE__, __FILE__, hr);
+#endif
+    }
 }
 
 GraphicD3D11::~GraphicD3D11()
@@ -51,8 +68,12 @@ GraphicD3D11::~GraphicD3D11()
         pDevice->Release();
 }
 
-void GraphicD3D11::swapBuffer() const
+void GraphicD3D11::swapBuffer()
 {
+#if _DEBUG
+    _dxgiDebugInfoBridge.setLogPosition();
+#endif
+    
     HRESULT hr = pSwapChain->Present(1, 0);
     
     if (FAILED(hr))
@@ -64,7 +85,14 @@ void GraphicD3D11::swapBuffer() const
         }
         else
         {
-            HResultException::check(hr, __LINE__, __FILE__);
+            if (FAILED(hr))
+            {
+#if _DEBUG
+                throw HResultException(__LINE__, __FILE__, hr, _dxgiDebugInfoBridge.getLog());
+#else
+                throw HResultException(__LINE__, __FILE__, hr);
+#endif
+            }
         }
     }
 }

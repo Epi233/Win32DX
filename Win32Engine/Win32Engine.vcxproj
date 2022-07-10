@@ -138,6 +138,7 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Console\DebugConsole.cpp" />
     <ClCompile Include="src\Exception\EngineException.cpp" />
+    <ClCompile Include="src\Graphic\D3D11\DxgiInfoBridge.cpp" />
     <ClCompile Include="src\Graphic\D3D11\GraphicD3D11.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -226,6 +227,7 @@
     <ClInclude Include="src\Console\DebugConsole.h" />
     <ClInclude Include="src\DefinwWindows.h" />
     <ClInclude Include="src\Exception\EngineException.h" />
+    <ClInclude Include="src\Graphic\D3D11\DxgiInfoBridge.h" />
     <ClInclude Include="src\Graphic\D3D11\GraphicD3D11.h" />
     <ClInclude Include="src\Input\Keyboard.h" />
     <ClInclude Include="src\Input\Mouse.h" />

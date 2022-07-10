@@ -2,6 +2,7 @@
 
 #include <string>
 #include <exception>
+#include <vector>
 #include "../DefinwWindows.h"
 
 class BaseException : public std::exception
@@ -30,6 +31,7 @@ class HResultException : public BaseException
 {
 public:
     HResultException(int line, const char* file, HRESULT hResult);
+    HResultException(int line, const char* file, HRESULT hResult, const std::vector<std::wstring>& additionalInfo);
     const wchar_t* whatW() const noexcept override;
     virtual const char* getType() const noexcept override;
 
@@ -43,4 +45,5 @@ protected:
         
 private:
     HRESULT _hResult;
+    std::vector<std::wstring> _additionalInfo;
 };
