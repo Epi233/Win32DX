@@ -28,9 +28,7 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
     swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-#if _DEBUG
-    _dxgiDebugInfoBridge.setLogPosition();
-#endif
+    dxgiDebugInfoSetLogPosition();
     
     HRESULT hr = D3D11CreateDeviceAndSwapChain(
         nullptr,
@@ -41,38 +39,23 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
         0,
         D3D11_SDK_VERSION,
         &swapChainDesc,
-        &pSwapChain,
-        &pDevice,
+        pSwapChain.GetAddressOf(),
+        pDevice.GetAddressOf(),
         nullptr,
-        &pContext
+        pContext.GetAddressOf()
         );
 
-
     if (FAILED(hr))
-    {
-#if _DEBUG
-        throw HResultException(__LINE__, __FILE__, hr, _dxgiDebugInfoBridge.getLog());
-#else
-        throw HResultException(__LINE__, __FILE__, hr);
-#endif
-    }
+        throw HResultException(__LINE__, __FILE__, hr, dxgiDebugInfoGetLog());
 }
 
 GraphicD3D11::~GraphicD3D11()
 {
-    if (pSwapChain != nullptr)
-        pSwapChain->Release();
-    if (pContext != nullptr)
-        pContext->Release();
-    if (pDevice != nullptr)
-        pDevice->Release();
 }
 
 void GraphicD3D11::swapBuffer()
 {
-#if _DEBUG
-    _dxgiDebugInfoBridge.setLogPosition();
-#endif
+    dxgiDebugInfoSetLogPosition();
     
     HRESULT hr = pSwapChain->Present(1, 0);
     
@@ -86,13 +69,23 @@ void GraphicD3D11::swapBuffer()
         else
         {
             if (FAILED(hr))
-            {
-#if _DEBUG
-                throw HResultException(__LINE__, __FILE__, hr, _dxgiDebugInfoBridge.getLog());
-#else
-                throw HResultException(__LINE__, __FILE__, hr);
-#endif
-            }
+                throw HResultException(__LINE__, __FILE__, hr, dxgiDebugInfoGetLog());
         }
     }
+}
+
+void GraphicD3D11::dxgiDebugInfoSetLogPosition()
+{
+#if _DEBUG
+    _dxgiDebugInfoBridge.setLogPosition();
+#endif
+}
+
+std::vector<std::wstring> GraphicD3D11::dxgiDebugInfoGetLog() const
+{
+#if _DEBUG
+    return _dxgiDebugInfoBridge.getLog();
+#else
+    return std::vector<std::wstring>>();
+#endif
 }

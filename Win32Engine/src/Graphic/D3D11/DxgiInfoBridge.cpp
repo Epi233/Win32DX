@@ -21,7 +21,7 @@ DxgiInfoBridge::DxgiInfoBridge()
         
     }
 
-    HRESULT hr = dxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(&_pDxgiInfoQueue));
+    HRESULT hr = dxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(_pDxgiInfoQueue.GetAddressOf()));
     HResultException::check(hr, __LINE__, __FILE__);
 }
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <dxgidebug.h>
+#include <wrl.h>
 
 #include "../../DefinwWindows.h"
 
@@ -24,5 +25,5 @@ public:
 
 private:
     unsigned long long _logPosition = 0;
-    IDXGIInfoQueue* _pDxgiInfoQueue = nullptr;
+    Microsoft::WRL::ComPtr<IDXGIInfoQueue> _pDxgiInfoQueue;
 };
