@@ -215,6 +215,7 @@
     </ClCompile>
     <ClCompile Include="src\Input\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse.cpp" />
+    <None Include="src\Shader\vertex.hlsl" />
     <ClCompile Include="src\Util\StringUtil.cpp" />
     <ClCompile Include="src\Util\Timer.cpp" />
     <ClCompile Include="src\Util\Util.cpp" />

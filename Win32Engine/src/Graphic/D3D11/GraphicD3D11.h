@@ -15,6 +15,8 @@ public:
 
 public:
     void swapBuffer();
+    void test();
+    Microsoft::WRL::ComPtr<ID3DBlob> compileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target);
 
 private:
     // shit pointer
