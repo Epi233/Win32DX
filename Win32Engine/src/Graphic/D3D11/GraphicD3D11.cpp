@@ -41,10 +41,10 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
         0,
         D3D11_SDK_VERSION,
         &swapChainDesc,
-        pSwapChain.GetAddressOf(),
-        pDevice.GetAddressOf(),
+        _pSwapChain.GetAddressOf(),
+        _pDevice.GetAddressOf(),
         nullptr,
-        pContext.GetAddressOf()
+        _pContext.GetAddressOf()
         );
 
     if (FAILED(hr))
@@ -59,14 +59,14 @@ void GraphicD3D11::swapBuffer()
 {
     dxgiDebugInfoSetLogPosition();
     
-    HRESULT hr = pSwapChain->Present(1, 0);
+    HRESULT hr = _pSwapChain->Present(1, 0);
     
     if (FAILED(hr))
     {
         // 这个异常有额外的信息可以显示
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
-            throw HResultException(__LINE__, __FILE__, pDevice->GetDeviceRemovedReason());
+            throw HResultException(__LINE__, __FILE__, _pDevice->GetDeviceRemovedReason());
         }
         else
         {
@@ -109,7 +109,7 @@ void GraphicD3D11::test()
     Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
     {
         dxgiDebugInfoSetLogPosition();
-        auto hCreateBuffer = pDevice->CreateBuffer(&bufferDesc, &subResData, pVertexBuffer.GetAddressOf());
+        auto hCreateBuffer = _pDevice->CreateBuffer(&bufferDesc, &subResData, pVertexBuffer.GetAddressOf());
         if (FAILED(hCreateBuffer))
             throw HResultException(__LINE__, __FILE__, hCreateBuffer, dxgiDebugInfoGetLog());
     }
@@ -117,7 +117,7 @@ void GraphicD3D11::test()
     // 设置顶点缓冲
     const UINT stride = sizeof(Vertex);
     const UINT offset = 0u;
-    pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+    _pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
 
     // Vertex Shader
     Microsoft::WRL::ComPtr<ID3DBlob> pVertexShaderBlob = compileShader(
@@ -125,11 +125,11 @@ void GraphicD3D11::test()
         nullptr, "VS", "vs_5_0");
 
     Microsoft::WRL::ComPtr<ID3D11VertexShader> pVertexShader;
-    pDevice->CreateVertexShader(pVertexShaderBlob->GetBufferPointer(), pVertexShaderBlob->GetBufferSize(), nullptr, &pVertexShader);
-    pContext->VSSetShader(pVertexShader.Get(), nullptr, 0);
+    _pDevice->CreateVertexShader(pVertexShaderBlob->GetBufferPointer(), pVertexShaderBlob->GetBufferSize(), nullptr, &pVertexShader);
+    _pContext->VSSetShader(pVertexShader.Get(), nullptr, 0);
     
 
-    pContext->Draw(static_cast<UINT>(std::size(vertices)), 0u);
+    _pContext->Draw(static_cast<UINT>(std::size(vertices)), 0u);
 }
 
 Microsoft::WRL::ComPtr<ID3DBlob> GraphicD3D11::compileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target)
@@ -154,6 +154,21 @@ Microsoft::WRL::ComPtr<ID3DBlob> GraphicD3D11::compileShader(const std::wstring&
         OutputDebugString(static_cast<wchar_t*>(errors->GetBufferPointer()));
 
     return byteCode;
+}
+
+Microsoft::WRL::ComPtr<ID3D11Device> GraphicD3D11::getDevice() const
+{
+    return _pDevice;
+}
+
+Microsoft::WRL::ComPtr<ID3D11DeviceContext> GraphicD3D11::getContext() const
+{
+    return _pContext;
+}
+
+Microsoft::WRL::ComPtr<IDXGISwapChain> GraphicD3D11::getSwapChain() const
+{
+    return _pSwapChain;
 }
 
 void GraphicD3D11::dxgiDebugInfoSetLogPosition()

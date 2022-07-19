@@ -20,9 +20,14 @@ public:
 
 private:
     // shit pointer
-    Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
-    Microsoft::WRL::ComPtr<IDXGISwapChain> pSwapChain;
+    Microsoft::WRL::ComPtr<ID3D11Device> _pDevice;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> _pContext;
+    Microsoft::WRL::ComPtr<IDXGISwapChain> _pSwapChain;
+
+public:
+    Microsoft::WRL::ComPtr<ID3D11Device> getDevice() const;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> getContext() const;
+    Microsoft::WRL::ComPtr<IDXGISwapChain> getSwapChain() const;
 
 private:
 #if _DEBUG
