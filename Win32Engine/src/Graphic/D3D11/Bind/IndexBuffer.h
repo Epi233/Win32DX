@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <vector>
+
 #include "Bindable.h"
 
 namespace D3D11

@@ -45,25 +45,12 @@ HResultException::HResultException(int line, const char* file, HRESULT hResult)
 {
 }
 
-HResultException::HResultException(int line, const char* file, HRESULT hResult, const std::vector<std::wstring>& additionalInfo)
-    : BaseException(line, file)
-    , _hResult(hResult)
-    , _additionalInfo(additionalInfo)
-{
-    
-}
-
 const wchar_t* HResultException::whatW() const noexcept
 {
     std::wostringstream oss;
     oss << getType() << std::endl;
     oss << "[H Result] " << getHResult() << std::endl;
     oss << "[Desc] " << getExceptionString() << std::endl;
-    if (!_additionalInfo.empty())
-    {
-        for (const auto& i : _additionalInfo)
-            oss << "[Additional] " << i << std::endl;
-    }
     oss << getOriginalString();
 
     _whatBuffer = oss.str();

@@ -29,8 +29,6 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
 #if _DEBUG
     swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-
-    dxgiDebugInfoSetLogPosition();
     
     HRESULT hr = D3D11CreateDeviceAndSwapChain(
         nullptr,
@@ -48,7 +46,7 @@ GraphicD3D11::GraphicD3D11(HWND targetWnd)
         );
 
     if (FAILED(hr))
-        throw HResultException(__LINE__, __FILE__, hr, dxgiDebugInfoGetLog());
+        throw HResultException(__LINE__, __FILE__, hr);
 }
 
 GraphicD3D11::~GraphicD3D11()
@@ -57,22 +55,11 @@ GraphicD3D11::~GraphicD3D11()
 
 void GraphicD3D11::swapBuffer()
 {
-    dxgiDebugInfoSetLogPosition();
-    
     HRESULT hr = _pSwapChain->Present(1, 0);
     
     if (FAILED(hr))
     {
-        // 这个异常有额外的信息可以显示
-        if (hr == DXGI_ERROR_DEVICE_REMOVED)
-        {
-            throw HResultException(__LINE__, __FILE__, _pDevice->GetDeviceRemovedReason());
-        }
-        else
-        {
-            if (FAILED(hr))
-                throw HResultException(__LINE__, __FILE__, hr, dxgiDebugInfoGetLog());
-        }
+        throw HResultException(__LINE__, __FILE__, hr); 
     }
 }
 
@@ -108,10 +95,9 @@ void GraphicD3D11::test()
     // 创建数据缓冲区
     Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
     {
-        dxgiDebugInfoSetLogPosition();
         auto hCreateBuffer = _pDevice->CreateBuffer(&bufferDesc, &subResData, pVertexBuffer.GetAddressOf());
         if (FAILED(hCreateBuffer))
-            throw HResultException(__LINE__, __FILE__, hCreateBuffer, dxgiDebugInfoGetLog());
+            throw HResultException(__LINE__, __FILE__, hCreateBuffer);
     }
 
     // 设置顶点缓冲
@@ -142,13 +128,11 @@ Microsoft::WRL::ComPtr<ID3DBlob> GraphicD3D11::compileShader(const std::wstring&
     Microsoft::WRL::ComPtr<ID3DBlob> byteCode = nullptr;
     Microsoft::WRL::ComPtr<ID3DBlob> errors;
 
-    dxgiDebugInfoSetLogPosition();
-
     auto hr = D3DCompileFromFile(filename.c_str(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
         entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
 
     if (FAILED(hr))
-        throw HResultException(__LINE__, __FILE__, hr, dxgiDebugInfoGetLog());
+        throw HResultException(__LINE__, __FILE__, hr);
 
     if (errors != nullptr)
         OutputDebugString(static_cast<wchar_t*>(errors->GetBufferPointer()));
@@ -169,20 +153,4 @@ Microsoft::WRL::ComPtr<ID3D11DeviceContext> GraphicD3D11::getContext() const
 Microsoft::WRL::ComPtr<IDXGISwapChain> GraphicD3D11::getSwapChain() const
 {
     return _pSwapChain;
-}
-
-void GraphicD3D11::dxgiDebugInfoSetLogPosition()
-{
-#if _DEBUG
-    _dxgiDebugInfoBridge.setLogPosition();
-#endif
-}
-
-std::vector<std::wstring> GraphicD3D11::dxgiDebugInfoGetLog() const
-{
-#if _DEBUG
-    return _dxgiDebugInfoBridge.getLog();
-#else
-    return std::vector<std::wstring>>();
-#endif
 }

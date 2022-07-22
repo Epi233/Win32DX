@@ -9,10 +9,20 @@ D3D11::IndexBuffer::IndexBuffer(const GraphicD3D11& gfx, const std::vector<unsig
     bufferDesc.CPUAccessFlags = 0u;
     bufferDesc.MiscFlags = 0u;
     bufferDesc.ByteWidth = static_cast<UINT>(_count * sizeof(unsigned short));
-    bufferDesc.StructureByteStride = sizeof( unsigned short );
+    bufferDesc.StructureByteStride = sizeof(unsigned short);
 
     D3D11_SUBRESOURCE_DATA subResData = {};
     subResData.pSysMem = indices.data();
 
     gfx.getDevice()->CreateBuffer(&bufferDesc, &subResData, _pIndexBuffer.GetAddressOf());
+}
+
+void D3D11::IndexBuffer::bind(GraphicD3D11& gfx)
+{
+    gfx.getContext()->IASetIndexBuffer(_pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+}
+
+UINT D3D11::IndexBuffer::getCount() const
+{
+    return _count;
 }
