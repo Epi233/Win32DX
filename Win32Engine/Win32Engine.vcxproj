@@ -140,7 +140,9 @@
     <ClCompile Include="src\Exception\EngineException.cpp" />
     <ClCompile Include="src\Graphic\D3D11\Bind\Bindable.cpp" />
     <ClCompile Include="src\Graphic\D3D11\Bind\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphic\D3D11\Bind\InputLayout.cpp" />
     <ClCompile Include="src\Graphic\D3D11\Bind\VertexBuffer.cpp" />
+    <ClCompile Include="src\Graphic\D3D11\Bind\VertexShader.cpp" />
     <ClCompile Include="src\Graphic\D3D11\D3D11Util.cpp" />
     <ClCompile Include="src\Graphic\D3D11\GraphicD3D11.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -234,7 +236,9 @@
     <ClInclude Include="src\Graphic\D3D11\Bind\Bindable.h" />
     <ClInclude Include="src\Graphic\D3D11\Bind\ConstantBuffer.hpp" />
     <ClInclude Include="src\Graphic\D3D11\Bind\IndexBuffer.h" />
+    <ClInclude Include="src\Graphic\D3D11\Bind\InputLayout.h" />
     <ClInclude Include="src\Graphic\D3D11\Bind\VertexBuffer.h" />
+    <ClInclude Include="src\Graphic\D3D11\Bind\VertexShader.h" />
     <ClInclude Include="src\Graphic\D3D11\D3D11Util.h" />
     <ClInclude Include="src\Graphic\D3D11\GraphicD3D11.h" />
     <ClInclude Include="src\Input\Keyboard.h" />

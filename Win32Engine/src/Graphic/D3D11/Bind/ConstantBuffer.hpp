@@ -41,5 +41,36 @@ namespace D3D11
     protected:
         Microsoft::WRL::ComPtr<ID3D11Buffer> _pConstantBuffer;
     };
+
+    template<typename T>
+    class VertexConstantBuffer : public ConstantBuffer<T>
+    {
+    public:
+        VertexConstantBuffer(const GraphicD3D11& gfx, const T& constant)
+            : ConstantBuffer<T>(gfx, constant)
+        {
+        }
+        
+        void bind(GraphicD3D11& gfx) override
+        {
+            gfx.getContext()->VSSetConstantBuffers(0u, 1u, ConstantBuffer<T>::_pConstantBuffer.GetAddressOf());
+        }
+    };
+
+    template<typename T>
+    class PixelConstantBuffer : public ConstantBuffer<T>
+    {
+    public:
+        PixelConstantBuffer(const GraphicD3D11& gfx, const T& constant)
+            : ConstantBuffer<T>(gfx, constant)
+        {
+        }
+
+        void bind(GraphicD3D11& gfx) override
+        {
+            gfx.getContext()->PSSetConstantBuffers(0u, 1u, ConstantBuffer<T>::_pConstantBuffer.GetAddressOf());
+        }
+    };
+    
 }
 
